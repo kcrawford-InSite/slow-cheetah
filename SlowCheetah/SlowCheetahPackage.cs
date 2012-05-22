@@ -649,7 +649,15 @@ namespace SlowCheetah.VisualStudio
                 }
 
                 // and add it to the project
-                ProjectItem addedItem = selectedProjectItem.ProjectItems.AddFromFile(itemPath);
+                ProjectItem addedItem = null;
+                if (selectedProjectItem.ProjectItems != null) {
+                     addedItem = selectedProjectItem.ProjectItems.AddFromFile(itemPath);
+                }
+                else {
+                    // for some reason in Cloud Projects ProjectItems is null
+                    // TODO: This blows up for Cloud Project too, investigating.
+                    addedItem = selectedProjectItem.ContainingProject.ProjectItems.AddFromFile(itemPath);
+                }
 
                 IVsHierarchy hierarchy = null;
                 IVsProject vsProject = (IVsProject)hierarchy;
