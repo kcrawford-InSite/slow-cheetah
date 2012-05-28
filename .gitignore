@@ -3,6 +3,7 @@ bin
 obj
 SlowCheetah.Tasks
 TestResults
+_UpgradeReport_Files
 
 # Files
 msbuild*.log

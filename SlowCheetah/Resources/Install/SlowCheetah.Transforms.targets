@@ -197,10 +197,7 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
                           and '%(Link)'!='' " />
   </Target>
 
-  <!-- ***********************************************************
-  ClickOnce related items below
-  ****************************************************************-->
-  <Target Name="SlowCheetah_ClickOnceUpdate" BeforeTargets="_DeploymentComputeClickOnceManifestInfo" DependsOnTargets="TransformAllFiles">
+  <Target Name="ReplaceAppConfig" BeforeTargets="BuiltProjectOutputGroup" DependsOnTargets="TransformAllFiles">
     <PropertyGroup>
       <_SlowCheetahAppConfigTransformExists Condition="Exists(@(_AppConfigToTransform->'%(RelativeDir)%(Filename).$(Configuration)%(Extension)'))">true</_SlowCheetahAppConfigTransformExists>
     </PropertyGroup>
@@ -216,7 +213,20 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
         <TargetPath>$(_OldAppConfigWithTargetPath)</TargetPath>
       </AppConfigWithTargetPath>
     </ItemGroup>
-
+    <!-- We also need to update $(AppConfig) because some targets use that property instead -->
+    <PropertyGroup>
+      <AppConfig Condition=" '$(SlowCheetahReplaceAppConfigProperty)'=='' ">$(_SCNewAppConfigFile)</AppConfig>
+    </PropertyGroup>
+  </Target>
+  
+  <!-- ***********************************************************
+  ClickOnce related items below
+  ****************************************************************-->
+  <Target Name="SlowCheetah_ClickOnceUpdate" 
+          BeforeTargets="_DeploymentComputeClickOnceManifestInfo"
+          DependsOnTargets="TransformAllFiles;ReplaceAppConfig">
+    
+    
   </Target>
 
   <Target Name="SlowCheetah_ClickOnceLooseFileUpdate" AfterTargets="_DeploymentComputeClickOnceManifestInfo" DependsOnTargets="DiscoverFilesToTransform">
@@ -237,7 +247,6 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
     </ItemGroup>
   </Target>
 
-
   <!-- ***********************************************************
   Setup project related items below
   ****************************************************************-->
@@ -248,13 +257,13 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
   <PropertyGroup Condition=" '$(SlowCheetahEnableSetupProjects)'=='true'">
     <AddAppConfigToBuildOutputs>false</AddAppConfigToBuildOutputs>
 
-    <BuiltProjectOutputGroupDependsOn>
+    <!--<BuiltProjectOutputGroupDependsOn>
       $(BuiltProjectOutputGroupDependsOn);
       AfterBuiltProjectOutputGroup
-    </BuiltProjectOutputGroupDependsOn>
+    </BuiltProjectOutputGroupDependsOn>-->
   </PropertyGroup>
 
-  <Target Name="AfterBuiltProjectOutputGroup" DependsOnTargets="TransformAllFiles">
+  <Target Name="AfterBuiltProjectOutputGroup" DependsOnTargets="TransformAllFiles" AfterTargets="BuiltProjectOutputGroup">
     <ItemGroup>
       <_TmpAppConfig Include="@(AppConfigWithTargetPath->'$(OutDir)%(TargetPath)')" />
     </ItemGroup>
@@ -274,5 +283,21 @@ Copyright (C) Sayed Ibrahim Hashimi, Chuck England 2011. All rights reserved.
         <OriginalItemSpec>@(_FilesToTransformNotAppConfig->'$(OutDir)%(Link)')</OriginalItemSpec>
       </BuiltProjectOutputGroupOutput>
     </ItemGroup>
+    <ItemGroup>
+      <BuiltProjectOutputGroupOutput Remove="@(_AppConfigToTransform->'%(FullPath)')"/>
+    </ItemGroup>
   </Target>
+  
+  <!--<Target Name="DemoTarget" AfterTargets="BuiltProjectOutputGroup;
+          DebugSymbolsProjectOutputGroupDependencies;
+          SatelliteDllsProjectOutputGroupDependencies;
+          DocumentationProjectOutputGroupDependencies;
+          SGenFilesOutputGroupDependencies">
+    
+    <Message Text="Sayed-02-BuiltProjectOutputGroupOutput: @(BuiltProjectOutputGroupOutput)" Importance="high"/>
+    <Message Text="Sayed-01a-DebugSymbolsProjectOutputGroupDependency: %(DebugSymbolsProjectOutputGroupDependency.identity)" Importance="high"/>
+    <Message Text="Sayed-01a-SatelliteDllsProjectOutputGroupDependency: %(SatelliteDllsProjectOutputGroupDependency.identity)" Importance="high"/>
+    <Message Text="Sayed-01a-DocumentationProjectOutputGroupDependency: %(DocumentationProjectOutputGroupDependency.identity)" Importance="high"/>
+    <Message Text="Sayed-01a-SGenFilesOutputGroupDependency: %(SGenFilesOutputGroupDependency.identity)" Importance="high"/>       
+  </Target>-->
 </Project>
