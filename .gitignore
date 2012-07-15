@@ -11,3 +11,5 @@ msbuild*.log
 *.user
 *.metaproj
 *.metaproj.tmp
+UpgradeLog*.xml
+m.*.log
