@@ -1,9 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "AzureWorker", "AzureWorker\AzureWorker.ccproj", "{35B6EA6B-12CB-4E05-8F6E-7E19D41C2FD6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWorker", "SampleWorker\SampleWorker.csproj", "{45D9C696-B768-4260-856B-3541EBDEFCAA}"
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "AzureWorker1.7", "AzureWorker1.7\AzureWorker1.7.ccproj", "{4806EEEF-FC04-4942-BEF8-61678D5F106A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +21,10 @@ Global
 		{45D9C696-B768-4260-856B-3541EBDEFCAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45D9C696-B768-4260-856B-3541EBDEFCAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45D9C696-B768-4260-856B-3541EBDEFCAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4806EEEF-FC04-4942-BEF8-61678D5F106A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4806EEEF-FC04-4942-BEF8-61678D5F106A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4806EEEF-FC04-4942-BEF8-61678D5F106A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4806EEEF-FC04-4942-BEF8-61678D5F106A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
